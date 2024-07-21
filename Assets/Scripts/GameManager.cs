@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerInventory.numberOfItems == 12)
+        if (playerInventory.numberOfItems == 10)
         {
             playerController.gameOver = true;
             gameOverText.text = $"Demo completed";

@@ -22,6 +22,10 @@ public class Enemy : MonoBehaviour
         {
         EnemyMovement(); 
         }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void EnemyMovement()
