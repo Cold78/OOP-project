@@ -2,24 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public abstract class PlayerController : MonoBehaviour
 {
     public float speed;
-    public bool gameOver = false;
 
     [SerializeField] float rotationSpeed;
 
-    private float zBoundUp = 90.0f;
-    private float zBoundDown = 1.0f;
-    private float xBoundLeft = 10.0f;
-    private float xBoundRight = 90;
+   
 
     [SerializeField] float jumpSpeed;
     [SerializeField] float ySpeed;
-    private CharacterController characterController;
+    public CharacterController characterController;
     private float originalStepOffset;
 
     private GameManager gameManager;
+    public Vector3 movementDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -32,24 +29,23 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerBoundary();
 
-        if (!gameOver)
+        if (!gameManager.gameOver)
         {
         PlayerControls();
         }
     }
 
-    void PlayerControls()
+    public void PlayerControls()
     {
         // Player input
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        PlayerJump();
+        PLayerSkills();
 
 
-        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
+         movementDirection = new Vector3(horizontalInput, 0, verticalInput);
         movementDirection.Normalize();
         Vector3 speed1 = movementDirection * speed;
         speed1.y = ySpeed;
@@ -64,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void PlayerJump()
+    public virtual void PLayerSkills()
     {
         ySpeed += Physics.gravity.y * Time.deltaTime;
 
@@ -84,32 +80,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void PlayerBoundary()
-    {
-        if (transform.position.x < xBoundLeft)
-        {
-            transform.position = new Vector3(xBoundLeft, transform.position.y, transform.position.z);
-        }
-
-        if (transform.position.x > xBoundRight)
-        {
-            transform.position = new Vector3(xBoundRight, transform.position.y, transform.position.z);
-        }
-        if (transform.position.z < zBoundDown)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y, zBoundDown);
-        }
-        if (transform.position.z > zBoundUp)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y, zBoundUp);
-        }
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            gameOver = true;
+            gameManager.gameOver = true;
             Debug.Log("Game Over");
             gameManager.gameOverText.text = $"Game Over!";
             gameManager.gameOverText.gameObject.SetActive(true);
