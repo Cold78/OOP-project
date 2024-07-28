@@ -28,7 +28,10 @@ public class Enemy : MonoBehaviour
 
     void EnemyMovement()
     {
-        Vector3 lookDirection = (gameManager.playerController.gameObject.transform.position - transform.position).normalized;
+        float enemyDirectionX = (gameManager.playerController.gameObject.transform.position.x - transform.position.x);
+        float enemyDirectionZ = (gameManager.playerController.gameObject.transform.position.z - transform.position.z);
+        Vector3 lookDirection = new Vector3(enemyDirectionX, 0, enemyDirectionZ).normalized;
+        //Vector3 lookDirection = (gameManager.playerController.gameObject.transform.position - transform.position).normalized;
        transform.Translate(lookDirection * speed * Time.deltaTime);
     }
 
