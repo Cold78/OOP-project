@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class CharacterSelection : MonoBehaviour
 {
     public GameObject[] characters;
     public int selectedCharacter = 0;
+    [SerializeField] TextMeshProUGUI jumpText;
+    [SerializeField] TextMeshProUGUI dashText;
+
 
     public void NextCharacter()
     {
@@ -27,9 +31,29 @@ public class CharacterSelection : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (selectedCharacter == 0)
+        {
+            dashText.text = $"Spacebar: Dash";
+            dashText.gameObject.SetActive(true);
+            jumpText.gameObject.SetActive(false);
+
+        }
+        else
+        {
+            jumpText.text = $"Spacebar: Jump";
+            jumpText.gameObject.SetActive(true);
+            dashText.gameObject.SetActive(false);
+
+        }
+    }
+
     public void StartGame()
     {
         PlayerPrefs.SetInt("selectedCharacter", selectedCharacter);
         SceneManager.LoadScene(1);
     }
+
+   
 }

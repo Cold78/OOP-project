@@ -6,11 +6,13 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] float speed = 2;
     private GameManager gameManager;
+    private Animator enemyAnim;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        enemyAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -34,8 +36,8 @@ public class Enemy : MonoBehaviour
        // transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
        var pos = transform.forward * speed * Time.deltaTime;
         transform.position += new Vector3(pos.x, 0, pos.z);
-        Debug.LogError(transform.forward);
-        Debug.LogError(Vector3.forward);
+       // Debug.LogError(transform.forward);
+       // Debug.LogError(Vector3.forward);
 
 
         // float enemyDirectionX = (gameManager.playerController.gameObject.transform.position.x - transform.position.x);

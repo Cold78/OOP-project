@@ -8,7 +8,7 @@ public abstract class PlayerController : MonoBehaviour
 
     [SerializeField] float rotationSpeed;
 
-   
+    public Animator playerAnim { get; private set; }
 
     [SerializeField] float jumpSpeed;
     [SerializeField] float ySpeed;
@@ -21,6 +21,7 @@ public abstract class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerAnim = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         characterController.stepOffset = originalStepOffset;
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
@@ -41,11 +42,18 @@ public abstract class PlayerController : MonoBehaviour
         // Player input
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-
         PLayerSkills();
+        if (horizontalInput != 0 && transform.position.y < 1 || verticalInput != 0 && transform.position.y < 1)
+        {
+            playerAnim.SetFloat("Speed_f", 0.5f);
+        }
+        else
+        {
+            playerAnim.SetFloat("Speed_f", 0);
 
+        }
 
-         movementDirection = new Vector3(horizontalInput, 0, verticalInput);
+        movementDirection = new Vector3(horizontalInput, 0, verticalInput);
         movementDirection.Normalize();
         Vector3 speed1 = movementDirection * speed;
         speed1.y = ySpeed;
@@ -89,6 +97,7 @@ public abstract class PlayerController : MonoBehaviour
             Debug.Log("Game Over");
             gameManager.gameOverText.text = $"Game Over!";
             gameManager.gameOverText.gameObject.SetActive(true);
+            gameManager.gameOverPanel.gameObject.SetActive(true);
         }
     }
 

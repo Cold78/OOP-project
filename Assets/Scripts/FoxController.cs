@@ -6,6 +6,9 @@ public class FoxController : PlayerController
 {
     public float dashSpeed;
     public float dashTime;
+    public ParticleSystem dirtSplatter;
+
+
 
     public override void PLayerSkills()
     {
@@ -22,7 +25,8 @@ public class FoxController : PlayerController
         while(Time.time < startTime + dashTime)
         {
             characterController.Move(movementDirection * dashSpeed * Time.deltaTime);
-
+            playerAnim.SetFloat("Speed_f", 1.0f);
+            dirtSplatter.Play();
             yield return null;
         }
     }

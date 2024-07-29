@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private PlayerInventory inventory;
     public PlayerController playerController;
     public bool gameOver = false;
+    public GameObject gameOverPanel;
 
 
     // Start is called before the first frame update
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
             gameOver = true;
             gameOverText.text = $"Demo completed";
             gameOverText.gameObject.SetActive(true);
+            gameOverPanel.gameObject.SetActive(true);
         }
     }
 
